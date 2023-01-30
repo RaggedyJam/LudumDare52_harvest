@@ -1,0 +1,18 @@
+A suggested made to me by people for the ludum dare
+is to add a indicator to find plants.
+
+I also found another game that used this when you
+got close to a target this game had you eliminating
+targets untill none where left in contrast to my
+game where you just keep finding more and more.
+
+If I change my game to be a count down instead it
+may make me focus on doing some level design which
+is a weak point of mine with making games that I 
+should practice at least a little.
+
+Also if my game now has an indicator I either need
+to keep track of a list of spawned objects or I now
+would only need to have one at a time till the
+player no longer needs it (this would mean changing
+my project might open up windows for new mechanics)

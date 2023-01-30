@@ -14,10 +14,16 @@ public class Swoop : MonoBehaviour
 
   Music music;
 
+  RandomGen randomGen;
+
+  Indicator indicator;
+
   void Start()
   {
     bird = GetComponent<AudioSource>();
     music = FindObjectOfType<Music>();
+    randomGen = FindObjectOfType<RandomGen>();
+    indicator = FindObjectOfType<Indicator>();
     StartCoroutine(CheckSwoop());
   }
 
@@ -25,6 +31,7 @@ public class Swoop : MonoBehaviour
   {
     yield return new WaitForSeconds(Random.Range(30, 60));
     GiveWarning();
+    indicator.SetTarget(randomGen.SpawnHayPile());
     yield return new WaitForSeconds(10);
     warning.SetActive(false);
     swoopAnimation.ResetTrigger("Swoop");

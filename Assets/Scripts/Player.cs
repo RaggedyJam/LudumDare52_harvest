@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
   int harvestLayer = 1 << 10;
   int hideLayer = 1 << 11;
 
-  int goodieCount;
+  public bool countDown;
+  int goodieCount = 6;
 
   float speed = 6;
 
@@ -43,6 +44,18 @@ public class Player : MonoBehaviour
   public HitBox hitBox;
 
   public Music music;
+
+  public Indicator indicator;
+
+  public RandomGen randomGen;
+
+  void Start()
+  {
+    if (!countDown)
+      goodieCount = 0;
+
+    goodieText.text = "X " + goodieCount;
+  }
 
   void Update()
   {
@@ -123,16 +136,23 @@ public class Player : MonoBehaviour
 
     playerAnimation.SetBool("Harvesting", false);
 
+    indicator.HideIndicator();
+
     currentHarvest = null;
 
-    StartCoroutine(IncrementGoodieCount());
+    indicator.SetTarget(randomGen.SpawnGoodie());
+
+    StartCoroutine(UpdateGoodieCount());
 
     harvestSound.Stop();
   }
 
-  IEnumerator IncrementGoodieCount()
+  IEnumerator UpdateGoodieCount()
   {
-    goodieCount++;
+    if (!countDown)
+      goodieCount++;
+    else
+      goodieCount--;
 
     goodieText.text = "X " + goodieCount;
 

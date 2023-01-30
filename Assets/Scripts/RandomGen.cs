@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RandomGen : MonoBehaviour
 {
+  public bool singleObjects;
+
   public Transform player;
 
   Vector3 lastPos;
@@ -14,9 +16,12 @@ public class RandomGen : MonoBehaviour
 
   void Start()
   {
-    lastPos = player.position;
+    if (!singleObjects)
+    {
+      lastPos = player.position;
 
-    StartCoroutine(CheckDst());
+      StartCoroutine(CheckDst());
+    }
   }
 
   IEnumerator CheckDst()
@@ -84,5 +89,42 @@ public class RandomGen : MonoBehaviour
       attempts++;
       yield return null;
     }
+  }
+
+  public Transform SpawnGoodie()
+  {
+    if (singleObjects)
+    {
+      return SpawnThing(goodie);
+    } else
+    {
+      return null;
+    }
+  }
+
+  public Transform SpawnHayPile()
+  {
+    if (singleObjects)
+    {
+      return SpawnThing(hayPile);
+    } else
+    {
+      return null;
+    }
+  }
+
+  Transform SpawnThing(GameObject spawnObject)
+  {
+    Vector3 targetPos;
+
+    float angle = Mathf.Deg2Rad * Random.Range(0, 360);
+
+    Vector3 pos = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * Random.Range(20, 30);
+
+    targetPos = player.position + pos;
+
+    GameObject newObject = Instantiate(spawnObject, targetPos, Quaternion.identity, transform);
+
+    return newObject.transform;
   }
 }

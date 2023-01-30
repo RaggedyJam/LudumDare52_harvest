@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
       Destroy(gameObject);
     }
 
-    transform.position += transform.up * Time.deltaTime * 6;
+    transform.position += transform.up * Time.deltaTime * 40;
   }
 
   void OnTriggerEnter2D()

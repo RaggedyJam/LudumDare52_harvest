@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class OffScreenSpawning : MonoBehaviour
 {
+  // lr = left/right, rf = roof/floor
+  public Transform lrIndicators;
+  public Transform rfIndicators;
+
   public GameObject spawnObject;
+  public GameObject warning;
 
   public Player player;
 
   void Start()
   {
-    StartCoroutine(SpawnObject());
+    StartCoroutine(SpawnLoop());
   }
 
   // start at the top side and going clockwise 0 = top, 1 = right
@@ -69,6 +74,13 @@ public class OffScreenSpawning : MonoBehaviour
     return rotation;
   }
 
+  IEnumerator SpawnLoop()
+  {
+    yield return new WaitForSeconds(.5f);
+    StartCoroutine(SpawnObject());
+    StartCoroutine(SpawnLoop());
+  }
+
   IEnumerator SpawnObject()
   {
     int screenSide = GetScreenSide();
@@ -77,10 +89,15 @@ public class OffScreenSpawning : MonoBehaviour
 
     Vector3 rotation = GetRotation(screenSide);
 
+    Transform newTransform = null;
+
+    if (screenSide % 2 == 0)
+      newTransform = Instantiate(warning, player.transform.position + spawnPos, Quaternion.Euler(rotation), rfIndicators).transform;
+    else
+      newTransform = Instantiate(warning, player.transform.position + spawnPos, Quaternion.Euler(rotation), lrIndicators).transform;
+
     yield return new WaitForSeconds(1);
 
-    Instantiate(spawnObject, player.transform.position + spawnPos, Quaternion.Euler(rotation));
-
-    StartCoroutine(SpawnObject());
+    Instantiate(spawnObject, newTransform.position, Quaternion.Euler(rotation), transform);
   }
 }
