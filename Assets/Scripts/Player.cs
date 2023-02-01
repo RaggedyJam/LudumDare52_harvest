@@ -19,11 +19,14 @@ public class Player : MonoBehaviour
 
   public bool countDown;
   int goodieCount = 6;
+  int farmerCount = 1;
 
-  float speed = 6;
+  float speed = 9;
 
   public Color goodieFlashColour;
   public Color goodieDefaultColour;
+  public Color farmerFlashColour;
+  public Color farmerDefaultColour;
 
   public AudioSource harvestSound;
   public AudioSource hideSound;
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
   Animator hayPile;
 
   public Text goodieText;
+  public Text farmerText;
 
   public HitBox hitBox;
 
@@ -49,12 +53,17 @@ public class Player : MonoBehaviour
 
   public RandomGen randomGen;
 
+  OffScreenSpawning farmers;
+
   void Start()
   {
     if (!countDown)
       goodieCount = 0;
 
     goodieText.text = "X " + goodieCount;
+    farmerText.text = "X " + farmerCount;
+
+    GetReferences();
   }
 
   void Update()
@@ -129,6 +138,10 @@ public class Player : MonoBehaviour
     }
   }
 
+  void GetReferences()
+  {
+    farmers = FindObjectOfType<OffScreenSpawning>();
+  }
 
   public void CompleteHarvest()
   {
@@ -140,7 +153,8 @@ public class Player : MonoBehaviour
 
     currentHarvest = null;
 
-    indicator.SetTarget(randomGen.SpawnGoodie());
+    if (!snatched)
+      indicator.SetTarget(randomGen.SpawnGoodie(), 1);
 
     StartCoroutine(UpdateGoodieCount());
 
@@ -172,6 +186,65 @@ public class Player : MonoBehaviour
       yield return null;
       t += Time.deltaTime * 3;
     }
+
+    if (countDown)
+    {
+      if (goodieCount == 0)
+      {
+        StartCoroutine(IncreaseFarmerCount());
+        goodieCount = 6;
+      }
+    } else
+    {
+      if (goodieCount % 6 == 0)
+      {
+        StartCoroutine(IncreaseFarmerCount());
+      }
+    }
+  }
+
+  IEnumerator IncreaseFarmerCount()
+  {
+    bool maxReached = false;
+
+    farmers.interval -= .1f;
+
+    farmerCount ++;
+
+    if (farmers.interval < .35f)
+    {
+      farmers.interval = .35f;
+      maxReached = true;
+    }
+
+    if (maxReached)
+      farmerText.text = "MAX!";
+    else
+    {
+      farmerText.text = "X " + farmerCount;
+    }
+
+    if (farmerCount < 9)
+    {
+      float t = 0;
+
+      while (t < 1)
+      {
+        float scale = 2;
+
+        scale = Mathf.Lerp(2, 1, t);
+
+        Color currentColour = Color.Lerp(farmerFlashColour, farmerDefaultColour, t);
+
+        farmerText.color = currentColour;
+        farmerText.transform.localScale = Vector3.one * scale;
+
+        yield return null;
+        t += Time.deltaTime * 3;
+      }
+    }
+
+    yield return null;
   }
 
   bool CheckForHarvest()
@@ -216,6 +289,8 @@ public class Player : MonoBehaviour
 
       hideSound.Play();
 
+      indicator.ShowIndicator();
+
       StartCoroutine(StopHiding());
     } else
     {
@@ -234,6 +309,8 @@ public class Player : MonoBehaviour
 
         hideSound.Play();
 
+        indicator.HideIndicator();
+
         hayPile.ResetTrigger("Hide");
         hayPile.SetTrigger("Hide");
       }
@@ -250,6 +327,8 @@ public class Player : MonoBehaviour
 
       music.StopMusic();
       death.Play();
+
+      indicator.HideIndicator();
 
       StartCoroutine(ShowDeathUI());
 

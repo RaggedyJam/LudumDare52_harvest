@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OffScreenSpawning : MonoBehaviour
 {
+  public float interval = 1;
+
   // lr = left/right, rf = roof/floor
   public Transform lrIndicators;
   public Transform rfIndicators;
@@ -22,6 +24,11 @@ public class OffScreenSpawning : MonoBehaviour
   int GetScreenSide()
   {
     return Random.Range(0, 4);
+  }
+
+  public void ChangeSpawnInterval(int value)
+  {
+    interval = value;
   }
 
   Vector3 GetSpawnPosition(int screenSide)
@@ -76,28 +83,22 @@ public class OffScreenSpawning : MonoBehaviour
 
   IEnumerator SpawnLoop()
   {
-    yield return new WaitForSeconds(.5f);
-    StartCoroutine(SpawnObject());
+    yield return new WaitForSeconds(interval);
+    SpawnObject();
     StartCoroutine(SpawnLoop());
   }
 
-  IEnumerator SpawnObject()
+  void SpawnObject()
   {
     int screenSide = GetScreenSide();
 
-    Vector3 spawnPos = GetSpawnPosition(screenSide);
+    Vector3 spawnPos = GetSpawnPosition(screenSide) + player.transform.position;
 
     Vector3 rotation = GetRotation(screenSide);
 
-    Transform newTransform = null;
-
     if (screenSide % 2 == 0)
-      newTransform = Instantiate(warning, player.transform.position + spawnPos, Quaternion.Euler(rotation), rfIndicators).transform;
+      Instantiate(warning, spawnPos, Quaternion.Euler(rotation), rfIndicators);
     else
-      newTransform = Instantiate(warning, player.transform.position + spawnPos, Quaternion.Euler(rotation), lrIndicators).transform;
-
-    yield return new WaitForSeconds(1);
-
-    Instantiate(spawnObject, newTransform.position, Quaternion.Euler(rotation), transform);
+      Instantiate(warning, spawnPos, Quaternion.Euler(rotation), lrIndicators);
   }
 }

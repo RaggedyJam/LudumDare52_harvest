@@ -31,7 +31,7 @@ public class Swoop : MonoBehaviour
   {
     yield return new WaitForSeconds(Random.Range(30, 60));
     GiveWarning();
-    indicator.SetTarget(randomGen.SpawnHayPile());
+    indicator.SetTarget(randomGen.SpawnHayPile(), 0);
     yield return new WaitForSeconds(10);
     warning.SetActive(false);
     swoopAnimation.ResetTrigger("Swoop");
@@ -53,6 +53,7 @@ public class Swoop : MonoBehaviour
       player.SnatchPlayer();
     }
 
+    indicator.RemoveTarget(0);
     bird.Play();
     music.ChangeMusic(music.normalMusic);
   }

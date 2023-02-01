@@ -8,7 +8,7 @@ public class ClearObjects : MonoBehaviour
 
   Vector3 spawnPos;
 
-  float dst = 100;
+  float dst = 30;
 
   void Start()
   {

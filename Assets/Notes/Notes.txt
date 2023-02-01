@@ -1,4 +1,4 @@
-A suggested made to me by people for the ludum dare
+A suggestion made to me by people for the ludum dare
 is to add a indicator to find plants.
 
 I also found another game that used this when you
@@ -38,3 +38,30 @@ around the player pointing to one plant or hay pile
 The game could imporve by adding animations that
 play and signal an area you need to dodge the area
 could be a line, spot or other shape.
+
+
+
+Comments from ludum dare players
+
+by milq (@milq), published 4 days ago
+The game is not bad at all! It is a simple game but
+it has very good elements like the music that is 
+adaptive when you die. I also see the collisions very well done, being only the trident that kills you. I think that some gameplay aspects need to be polished and that it be incremental with the appearance of new challenges. Still, I would love to see more of your participation in the next editions! Great game!
+
+
+by ChickensioDev (@chickensiodev), published 4 days ago
+really neat game! the gameplay loop was well made but i think faster pacing would have made the game better.. maybe put the crops closer to each other and make tha bird appear more often.. overall solid entry!
+
+
+by jk5000 (@jk5000), published 4 days ago
+The idea is fun, and I did have fun trying it. But I do not have very much time enough to harvest the plants, and there is not very many plants to harvest. Overall is this an okay little jam game.
+	(Dev's note: not clear that you can stop harvesting
+and continue where you left off meaning it takes less
+time to finish the harvest and allowing you to dodge
+mid harvest)
+
+
+by CobaltJT (@cobaltjt), published 4 days ago
+Good tutorial. Still I was a bit lost at the beginning (where to go). In my opinion: Art is ok, sound is good, music is good enough for a short game. The gameplay is not as exciting as I first imagined. Cannot quite say why. Maybe it’s a bit too static, as the world does not really interact with the player.
+
+some important feedback is level design would help alot (for mechanics and the game right now is boring/repetetive/empty) some one also stated the game felt too static and the world doesnt interact with the player. To target the world not interacting with the player I think the focus/idea would be to have developments, progression, story, commentary or responses to the player in the game. Another important note is the game should be incremental with the apperance of new challenges.
